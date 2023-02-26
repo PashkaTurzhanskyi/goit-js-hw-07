@@ -29,15 +29,21 @@ function selectItem(event) {
   }
 
   const instance = basicLightbox.create(
-    `<img src="${event.target.dataset.source}">`
+    `<img src="${event.target.dataset.source}">`,
+    {
+      onShow: (instance) => {
+        document.addEventListener("keydown", onEscKeyPress);
+      },
+      onClose: (instance) => {
+        document.removeEventListener("keydown", onEscKeyPress);
+      },
+    }
   );
   instance.show();
 
-  document.addEventListener("keydown", onEscKeyPress);
   function onEscKeyPress(event) {
     if (event.code === "Escape") {
       instance.close();
-      document.removeEventListener("keydown", onEscKeyPress);
     }
   }
 }
